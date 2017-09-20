@@ -11,23 +11,37 @@
 
     <packaging>pom</packaging>
 
-    <description>This is a demo project for JEP 238: Multi-Release JAR buiding in Maven with Java Comment Preprocessor
-    </description>
+    <description>Small example how to build a maven project with support of JEP-238 through preprocessing</description>
+    <url>https://github.com/raydac/jep-238-jcp-example</url>
 
     <properties>
+        <!-- as default JDK version we use 8 -->
         <java.version>8</java.version>
+        <!-- Define source and target for compiler -->
         <maven.compiler.source>1.${java.version}</maven.compiler.source>
         <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
     </properties>
 
     <modules>
+        <!-- The Module is just a pom contains parameters for preprocessing and pointers to source folder in main module, it should be the first one in build process -->
         <module>java9</module>
+        <!-- It is the main module contains all sources and resources, it should be last in build process because it contains code to assembly result jar -->
         <module>main</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <pluginManagement>
             <plugins>
+                <!-- preprocessor plugin to make preprocessing of code for JDK version -->
                 <plugin>
                     <groupId>com.igormaznitsa</groupId>
                     <artifactId>jcp</artifactId>
@@ -56,6 +70,7 @@
                             </goals>
                             <configuration>
                                 <globalVars>
+                                    <!-- define java.version global preprocessor variable which contains JDK version for current module 8 or 9 -->
                                     <property>
                                         <name>java.version</name>
                                         <value>${java.version}</value>
@@ -64,7 +79,7 @@
                             </configuration>
                         </execution>
                         <execution>
-                            <id>clearGeneratedFolders</id>
+                            <id>clear-generated-sources</id>
                             <goals>
                                 <goal>clear</goal>
                             </goals>
@@ -75,6 +90,7 @@
         </pluginManagement>
 
         <plugins>
+            <!-- Toolchains plugin to provide different JDK for each module -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-toolchains-plugin</artifactId>

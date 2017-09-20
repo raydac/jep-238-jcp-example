@@ -1,3 +1,4 @@
+// the directive below tells preprocessor to exclude the class from module if JDK version is less than 9
 //#excludeif java.version<9
 package com.igormaznitsa.tests;
 
@@ -8,6 +9,7 @@ import java.util.List;
  */
 public class OnlyJava9Class {
     public List<String> getList() {
+        // Let use JDK 9 new feature
         return List.of("one", "two", "three");
     }
 }

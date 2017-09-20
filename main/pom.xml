@@ -16,21 +16,17 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <!-- I have added the dependency to prevent parallel build of modules because we want to pack its content into result and avoid racing -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>jep-238-jcp-example-java9</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <!-- the plugin collects classes from modules and form multiversion JAR -->
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.0.0</version>
@@ -56,6 +52,8 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Just copy the result jar into parent target folder to make it easy to be found -->
             <plugin>
                 <groupId>com.coderplus.maven.plugins</groupId>
                 <artifactId>copy-rename-maven-plugin</artifactId>
@@ -74,6 +72,8 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- add call to preprocessor -->
             <plugin>
                 <groupId>com.igormaznitsa</groupId>
                 <artifactId>jcp</artifactId>

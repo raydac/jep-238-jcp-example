@@ -16,22 +16,32 @@
     <packaging>jar</packaging>
 
     <properties>
+        <!-- we use JDK 9 for the module -->
         <java.version>9</java.version>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
     <build>
+        <!-- place link to sources in the main module -->
         <sourceDirectory>${project.basedir}/../main/src/main/java</sourceDirectory>
+        <!-- place link to test sources in the main module -->
         <testSourceDirectory>${project.basedir}/../main/src/test/java</testSourceDirectory>
+
+        <!-- add link to resources folder in the main module -->
+        <resources>
+            <resource>
+                <directory>${project.basedir}/../main/src/main/resources</directory>
+            </resource>
+        </resources>
+
+        <!-- add link to test resource folder in the main module -->
+        <testResources>
+            <testResource>
+                <directory>${project.basedir}/../main/src/test/resources</directory>
+            </testResource>
+        </testResources>
+
         <plugins>
+            <!-- disable installation of the module because it is auxiliary one -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
@@ -40,6 +50,8 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
+
+            <!-- make call to the preprocessor -->
             <plugin>
                 <groupId>com.igormaznitsa</groupId>
                 <artifactId>jcp</artifactId>
