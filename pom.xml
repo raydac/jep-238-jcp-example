@@ -49,6 +49,21 @@
                             </configuration>
                         </execution>
                         <execution>
+                            <id>preprocessTestSources</id>
+                            <phase>generate-test-sources</phase>
+                            <goals>
+                                <goal>preprocessTests</goal>
+                            </goals>
+                            <configuration>
+                                <globalVars>
+                                    <property>
+                                        <name>java.version</name>
+                                        <value>${java.version}</value>
+                                    </property>
+                                </globalVars>
+                            </configuration>
+                        </execution>
+                        <execution>
                             <id>clearGeneratedFolders</id>
                             <goals>
                                 <goal>clear</goal>
