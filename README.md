@@ -43,7 +43,7 @@ For JDK 8 it should show something like the text
 Hello Good Old Java!
 OnlyJava9Class is not in scope
 ```
-And for JDK 9 and great it should show something like that
+And for JDK 9 and greater it should show something like that
 ```
 Hello New Java 9+181 !
 OnlyJava9Class is in scope
