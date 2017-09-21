@@ -1,6 +1,6 @@
 Since JDK 9 we have real risk that the new versions of JDK will be less and less compatible each other for small changes in API and it will hurt developers more and more (because Oracle is planning to make new releases of JDK much often). As a some solution for the problem, the Java community provided [JEP-238 "Multi-Release JAR Files"](http://openjdk.java.net/jeps/238) which has been implemented since JDK 9. It allows combine versions of classes for different JDK  in the same JAR and JVM will be using apropriate versions in runtime. Classes are saved in special subfolders inside `META-INF` folder of JAR file so that it works transparently but we still have the main problem with duplication of business logic in many copies of classes during development phase.   
 
-Hervé Boutemy [made nice example how to bring support of JEP-238 in a maven project](https://github.com/hboutemy/maven-jep238), his approach provides severa modules each of them contains classes for its version JDK and then they collected into single multi-release JAR, but how to be with cases when we need only small changes in classes? To keep separate class for each JDK is too expensive and it is very easy to forget make some important changes in all versions, it breaks DRY principle.  
+Hervé Boutemy [made nice example how to bring support of JEP-238 in a maven project](https://github.com/hboutemy/maven-jep238), his approach is to create multimodule project and split JDK dependent classes between modules and then collect compiled classes from each module into single multi-release JAR, but how to be with cases when we need only small changes in classes? To keep separate class for each JDK is too expensive and it is very easy to forget make some important changes in all versions, it breaks DRY principle.  
 
 Many years ago I already run into similar problem with incompatibility of "standard" API implemented by different vendors, it was with J2ME platform, I resolved the problem through development of special tool [Java Comment Preprocessor](https://github.com/raydac/java-comment-preprocessor) (which at present can work with Maven as a plugin). The Preprocessor keeps its directives inside commentaries and allows to inject small changes into classes without full duplication of code. (for instance team of [Postgres-JDBC driver](https://github.com/pgjdbc/pgjdbc) uses this preprocessor).
 
@@ -38,12 +38,12 @@ The Project uses [the Maven toolchains plugin](http://maven.apache.org/plugins/m
 </toolchains>
 ```
 The Resulted JAR `multiversion.jar` will be placed in root target folder and can be started with just `java -jar multiversion.jar`
-For JDK 8 it should show something like the text
+For start under JDK 8 it should show something like the text
 ```
 Hello Good Old Java!
 OnlyJava9Class is not in scope
 ```
-And for JDK 9 and greater it should show something like that
+And for start under JDK 9 and greater, it should show something like that
 ```
 Hello New Java 9+181 !
 OnlyJava9Class is in scope
