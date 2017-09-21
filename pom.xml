@@ -14,7 +14,12 @@
     <description>Small example how to build a maven project with support of JEP-238 through preprocessing</description>
     <url>https://github.com/raydac/jep-238-jcp-example</url>
 
+    <prerequisites>
+        <maven>3.0</maven>
+    </prerequisites>
+
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- as default JDK version we use 8 -->
         <java.version>8</java.version>
         <!-- Define source and target for compiler -->
@@ -39,6 +44,7 @@
     </dependencies>
 
     <build>
+        <defaultGoal>clean install</defaultGoal>
         <pluginManagement>
             <plugins>
                 <!-- preprocessor plugin to make preprocessing of code for JDK version -->
