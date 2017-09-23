@@ -36,13 +36,16 @@ The Project uses [the Maven toolchains plugin](http://maven.apache.org/plugins/m
   </toolchain>
 </toolchains>
 ```
-The Resulted JAR `multiversion.jar` will be placed in root target folder and can be started with just `java -jar multiversion.jar`
-For start under JDK 8 it should show something like the text
+
+The Project has predefined default build goals so that you can just use `mvn` to build it. As theresult there will be `jep-238-jcp-example-1.0.0-SNAPSHOT.jar` in the target folder, it is a multi-version JAR file which can be executed under JDK 8 and JDK 9 and JVM will be using different classes in each case. The JAR has defined main class name in its manifest so that it can be started in command line with easy command  
+`java -jar jep-238-jcp-example-1.0.0-SNAPSHOT.jar`
+
+After start under JDK 8 it should show something like the text
 ```
 Hello Good Old Java!
 Class uses new JDK9 API is not in scope
 ```
-And for start under JDK 9 and greater, it should show something like that
+And after start under JDK 9 and newer, it should show something like that
 ```
 Hello New Java 9+181 !
 Class uses new JDK9 API is in scope
