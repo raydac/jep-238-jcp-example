@@ -1,14 +1,13 @@
-Since JDK 9 we have real risk that the new versions of JDK will be less and less compatible each other for small changes in API and it will hurt developers more and more (because Oracle is planning to make new releases of JDK much often). As a some solution for the problem, the Java community provided [JEP-238 "Multi-Release JAR Files"](http://openjdk.java.net/jeps/238) which has been implemented since JDK 9. It allows combine versions of classes for different JDKs in single JAR file and JVM will choose apropriate versions of classes in runtime. Classes are saved in special subfolders inside `META-INF` so that it works transparently but we still have the main problem with duplication of business logic in many copies of classes during development phase.   
+Since JDK 9 we have real risk that the new versions of JDK will be less and less compatible each other for small changes in API and it will hurt developers more and more (because Oracle is planning to make new releases of JDK much often). As a some solution for the problem, the Java community provided [JEP-238 "Multi-Release JAR Files"](http://openjdk.java.net/jeps/238) which has been implemented since JDK 9. It allows combine versions of classes for different JDKs in single JAR file and JVM will choose apropriate versions of classes in runtime. Classes are saved in special sub-folders inside `META-INF` so that it works transparently but we still have the main problem with duplication of business logic in many copies of classes during development phase.   
 
-Hervé Boutemy [made nice example how to bring support of JEP-238 in a maven project](https://github.com/hboutemy/maven-jep238), his approach is to create multimodule project and split JDK dependent classes between modules and then collect compiled classes from each module into single multi-release JAR, but how to be with cases when we need only small changes in classes? To keep separate class for each JDK is too expensive and it is very easy to forget make some important changes in all versions, it breaks DRY principle.  
+Hervé Boutemy [made just nice example how to bring support of JEP-238 in a maven project](https://github.com/hboutemy/maven-jep238), his approach is to create multi-module project and split JDK dependent classes between modules and then collect compiled classes from each module into single multi-release JAR, but how to be with cases when we need only small changes in classes? To keep separate class for each JDK is too expensive and it is very easy to forget make some important changes in all versions, it breaks DRY principle.  
 
 Many years ago I already run into similar problem with incompatibility of "standard" API implemented by different vendors, it was with J2ME platform, I resolved the problem through development of special tool [Java Comment Preprocessor](https://github.com/raydac/java-comment-preprocessor) (which at present can work with Maven as a plugin). The Preprocessor keeps its directives inside commentaries and allows to inject small changes into classes without full duplication of code. (for instance team of [Postgres-JDBC driver](https://github.com/pgjdbc/pgjdbc) uses this preprocessor).
 
-I have written the example to show how to organize maven project which build a multiversion JAR file which supports JEP-238 but without duplication of classes for preprocessing of same classes for different conditions (for JDK 8 and JDK 9 in the example).   
-The Maven project contains two modules:
-* The `main` module contains all project sources and tests marked with JCP directives.
-* The `java9` module contains only pom.xml file with special parameters for preprocessing and links to source folders in the `main` project.
-   
+I have written the example to show how to organize maven project which build a multi-version JAR file which supports JEP-238 but without duplication of classes because it makes preprocessing of set of the same classes but with different parameters under different JDKs (for JDK 8 and JDK 9 in the example). On start the example was a multi-module one but then I decided to improve it and made optimization to make single-module project, so that now it is just a maven single module project generating single JAR as artifact. I have writte comments inside pom.xml files and hope they are no so complex for understanding.   
+
+__NB! The Project uses `maven-invoker-plugin` which sensetive to Maven home folder and may not work with bundled versions of Maven in some IDEs, in the case you should use external non-bundled version of Maven!__
+
 The Project uses [the Maven toolchains plugin](http://maven.apache.org/plugins/maven-toolchains-plugin/) and `toolchains.xml` file should be created in `.m2` folder to provide desired paths to JDK 8 and JDK 9
 ```xml
 <?xml version="1.0" encoding="UTF8"?>
@@ -41,10 +40,10 @@ The Resulted JAR `multiversion.jar` will be placed in root target folder and can
 For start under JDK 8 it should show something like the text
 ```
 Hello Good Old Java!
-OnlyJava9Class is not in scope
+Class uses new JDK9 API is not in scope
 ```
 And for start under JDK 9 and greater, it should show something like that
 ```
 Hello New Java 9+181 !
-OnlyJava9Class is in scope
+Class uses new JDK9 API is in scope
 ```
