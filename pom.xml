@@ -48,6 +48,7 @@
 
     <plugins>
       <!-- it is very important plugin because allows to make internal call to build another maven project with predefined properties, I use it to build version for Java 9 -->
+      <!-- NB! The Plugin is sensitive to Maven home and can not work if you build from IDE with bundled Maven, it there is an error try to use non-bundled one! -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-invoker-plugin</artifactId>
@@ -61,6 +62,7 @@
             </goals>
             <configuration>
               <pom>src/assembly/pom_jdk9.xml</pom>
+              <mergeUserSettings>true</mergeUserSettings>
               <!-- here we just provide some specific properties to executed pom -->
               <properties>
                 <main.project.src.folder>${project.basedir}/src</main.project.src.folder>
@@ -137,7 +139,6 @@
             </goals>
             <phase>package</phase>
             <configuration>
-              <verbose>true</verbose>
               <from>${project.build.directory}/${project.build.finalName}.jar</from>
               <to>${project.build.directory}/unpacked/${project.build.finalName}</to>
             </configuration>
