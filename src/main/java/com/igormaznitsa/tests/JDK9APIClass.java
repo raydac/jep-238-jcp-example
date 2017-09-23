@@ -5,9 +5,9 @@ package com.igormaznitsa.tests;
 import java.util.List;
 
 /**
- * The Class will be presented only for Java 9 and great.
+ * The Class will be presented only for Java 9+.
  */
-public class OnlyJava9Class {
+public class JDK9APIClass {
     public List<String> getList() {
         // Let use JDK 9 new feature
         return List.of("one", "two", "three");

@@ -20,9 +20,9 @@ public class Main {
         // Just check that class which we want to see only in JDK 9 is provided in scope
         Class<?> java9Class = null;
         try {
-            java9Class = Class.forName("com.igormaznitsa.tests.OnlyJava9Class");
+            java9Class = Class.forName("com.igormaznitsa.tests.JDK9APIClass");
         } catch (Exception ex) {
         }
-        System.out.println("OnlyJava9Class is " + (java9Class == null ? "not in scope" : "in scope"));
+        System.out.println("Class uses new JDK9 API is " + (java9Class == null ? "not in scope" : "in scope"));
     }
 }
