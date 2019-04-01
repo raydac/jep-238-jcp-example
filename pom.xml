@@ -78,7 +78,7 @@
       <plugin>
         <groupId>com.igormaznitsa</groupId>
         <artifactId>jcp</artifactId>
-        <version>6.1.4</version>
+        <version>7.0.0</version>
         <executions>
           <!-- make preprocessing of sources -->
           <execution>
@@ -91,17 +91,17 @@
           <execution>
             <id>preprocess-test-sources</id>
             <goals>
-              <goal>preprocessTests</goal>
+              <goal>preprocess</goal>
             </goals>
+            <configuration>
+              <useTestSources>true</useTestSources>
+            </configuration>
           </execution>
         </executions>
         <configuration>
-          <globalVars>
-            <property>
-              <name>java.version</name>
-              <value>${java.version}</value>
-            </property>
-          </globalVars>
+          <vars>
+            <java.version>${java.version}</java.version>
+          </vars>
         </configuration>
       </plugin>
 
