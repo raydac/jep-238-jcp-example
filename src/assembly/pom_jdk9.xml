@@ -11,14 +11,14 @@
   <packaging>jar</packaging>
 
   <properties>
-    <!-- we use JDK 9 for the module -->
-    <java.version>9</java.version>
+    <!-- we use JDK 11 for the module -->
+    <java.version>11</java.version>
     
     <!-- all resources in the project are encoded in UTF-8 -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Define source and target for compiler -->
-    <maven.compiler.source>1.${java.version}</maven.compiler.source>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
   </properties>
 
@@ -26,7 +26,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.12</version>
+      <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -97,7 +97,7 @@
       <plugin>
         <groupId>com.igormaznitsa</groupId>
         <artifactId>jcp</artifactId>
-        <version>7.0.1</version>
+        <version>7.0.5</version>
         <executions>
           <!-- make preprocessing of sources -->
           <execution>

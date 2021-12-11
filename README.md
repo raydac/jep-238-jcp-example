@@ -26,12 +26,12 @@ The Project uses [the Maven toolchains plugin](http://maven.apache.org/plugins/m
   <toolchain>
     <type>jdk</type>
     <provides>    
-	<version>9</version>
+	<version>11</version>
         <vendor>oracle</vendor>
 	<id>default</id>
     </provides>
     <configuration>
-	<jdkHome>/home/path/to/jdk1.9</jdkHome>
+	<jdkHome>/home/path/to/jdk11</jdkHome>
     </configuration>
   </toolchain>
 </toolchains>
